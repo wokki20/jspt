@@ -3,8 +3,8 @@
 ## Versioned URLs (Recommended)
 
 ```html
-<script src="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.min.js"></script>
-<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css">
+<script src="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.min.js"></script>
+<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css">
 ```
 
 ## Dynamic URLs (Latest)
