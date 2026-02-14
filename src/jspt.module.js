@@ -144,7 +144,6 @@ export function makePopup(options) {
 
     const popup = document.createElement('div');
     popup.classList.add('popup');
-    popup.id = custom_id;
 
     if (content_type === 'text') {
         if (content) {
@@ -296,6 +295,7 @@ export function makePopup(options) {
     const popupContainer = document.createElement('div');
     popupContainer.classList.add('popup-container');
     popupContainer.appendChild(popup);
+    popupContainer.id = custom_id;
 
     if (close_on_blur) {
         popupContainer.addEventListener('click', (e) => {

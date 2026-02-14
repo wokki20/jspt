@@ -323,6 +323,17 @@ Creates a popup modal.
 | `message` | string | `undefined` | Popup message (text mode only) |
 | `content` | string | `undefined` | HTML content (html mode only) |
 | `close_on_blur` | boolean | `true` | Close when clicking outside |
+| `custom_id` | string | `random string` | Custom ID for the popup |
+
+### `jspt.closePopup(options)`
+
+Closes a popup modal.
+
+**Options:**
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `custom_id` | string | `undefined` | Custom ID of the popup to close |
 
 ## VS Code Intellisense
 
