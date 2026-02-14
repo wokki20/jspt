@@ -241,8 +241,8 @@ const jspt = {
         popupHeader.appendChild(popupHeaderTitle);
 
         const popupHeaderClose = document.createElement('span');
-        popupHeaderClose.classList.add('popup-header-close', 'material-symbols-rounded');
-        popupHeaderClose.innerText = 'close';
+        popupHeaderClose.classList.add('popup-header-close');
+        popupHeaderClose.innerHTML = '&times;';
         popupHeaderClose.addEventListener('click', () => {
             popupContainer.remove();
         });
