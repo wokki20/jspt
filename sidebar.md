@@ -4,6 +4,7 @@
 - [Installation](docs/installation.md)
 - [CDN Usage](docs/cdn-usage.md)
 - [API Reference](docs/api-reference.md?id=api-reference)
+  - [importScript](docs/api-reference.md?id=jsptimportscriptoptions)
   - [makeToast](docs/api-reference.md?id=jsptmaketoastoptions)
   - [makePopup](docs/api-reference.md?id=jsptmakepopupoptions)
   - [closePopup](docs/api-reference.md?id=jsptclosepopupoptions)

@@ -6,6 +6,27 @@
 - ✅ Preload scripts for faster loading:
 
 ```html
-<link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.min.js" as="script">
-<link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css" as="style">
+<link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.min.js" as="script">
+<link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css" as="style">
 ```
+
+## File Sizes
+
+| File | Size | Use Case |
+|------|------|----------|
+| jspt.min.js | 10KB | Production (recommended) |
+| jspt.js | 24KB | Development with comments |
+| jspt.module.js | 21KB | ES6 projects |
+| jspt.css | 5.5KB | Required styles |
+
+## Best Practices
+
+1. **Use versioned CDN URLs in production** for stability and caching
+2. **Use minified version** for smaller file size
+3. **Lazy load icon libraries** only when needed:
+   ```javascript
+   jspt.importScript({
+       names: ['material_symbols_rounded']
+   });
+   ```
+4. **Preload critical resources** to reduce load time
