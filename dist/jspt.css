@@ -157,6 +157,10 @@
     padding-top: 10px;
 }
 
+.popup-container .popup .popup-header p {
+    margin: 0px;
+}
+
 .popup-container .popup .popup-header .popup-header-close {
     cursor: pointer;
     transition: all 0.3s ease;
