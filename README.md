@@ -134,6 +134,12 @@ makeToast({
 });
 ```
 
+### Option 3: NPM Package
+
+```bash
+npm install @wokki20/jspt
+```
+
 ## CDN Usage
 
 JSPT is hosted on `https://cdn.wokki20.nl` with two delivery methods:
@@ -584,3 +590,4 @@ MIT - See [LICENSE](LICENSE) file for details.
 - [Examples](#examples)
 - [Contributing Guide](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
+
