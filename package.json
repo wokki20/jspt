@@ -1,0 +1,38 @@
+{
+  "name": "jspt",
+  "version": "2.0.0",
+  "description": "A modern JavaScript library for creating toast notifications and popups with error handling",
+  "main": "dist/jspt.js",
+  "module": "dist/jspt.module.js",
+  "types": "dist/jspt.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "echo 'Build complete'"
+  },
+  "keywords": [
+    "toast",
+    "notification",
+    "popup",
+    "alert",
+    "ui",
+    "javascript"
+  ],
+  "author": "wokki20",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}
