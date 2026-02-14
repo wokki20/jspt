@@ -1,7 +1,6 @@
 # JSPT - JavaScript Popup & Toast Library
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://img.shields.io/npm/v/jspt.svg)](https://www.npmjs.com/package/jspt)
 [![GitHub issues](https://img.shields.io/github/issues/levkris/jspt.svg)](https://github.com/levkris/jspt/issues)
 [![GitHub stars](https://img.shields.io/github/stars/levkris/jspt.svg)](https://github.com/levkris/jspt/stargazers)
 
