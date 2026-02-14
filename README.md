@@ -15,9 +15,9 @@ Get started in seconds with our CDN:
 <html>
 <head>
     <!-- JSPT CSS -->
-    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.css">
+    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css">
     <!-- JSPT JavaScript -->
-    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.min.js"></script>
+    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.min.js"></script>
 </head>
 <body>
     <script>
@@ -74,10 +74,10 @@ See [FOLDER_STRUCTURE.md](FOLDER_STRUCTURE.md) for detailed information.
 #### Production (Pinned Version - Stable)
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.css">
+<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css">
 
 <!-- JavaScript (minified) -->
-<script src="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.min.js"></script>
+<script src="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.min.js"></script>
 
 <!-- Usage -->
 <script>
@@ -96,10 +96,10 @@ jspt.makeToast({
 
 #### ES Module from CDN
 ```html
-<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.css">
+<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css">
 
 <script type="module">
-import { makeToast, makePopup } from 'https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.module.js';
+import { makeToast, makePopup } from 'https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.module.js';
 
 makeToast({ message: "ES Module from CDN!" });
 </script>
@@ -143,20 +143,20 @@ JSPT is hosted on `https://cdn.wokki20.nl` with two delivery methods:
 Use specific versions for stability and caching:
 
 ```html
-<!-- v2.0.1 - Minified (10KB) -->
-<script src="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.min.js"></script>
+<!-- v2.0.3 - Minified (10KB) -->
+<script src="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.min.js"></script>
 
-<!-- v2.0.1 - Full with JSDoc (24KB) -->
-<script src="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.js"></script>
+<!-- v2.0.3 - Full with JSDoc (24KB) -->
+<script src="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.js"></script>
 
-<!-- v2.0.1 - ES Module (21KB) -->
-<script type="module" src="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.module.js"></script>
+<!-- v2.0.3 - ES Module (21KB) -->
+<script type="module" src="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.module.js"></script>
 
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.css">
+<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css">
 
 <!-- TypeScript Definitions -->
-/// <reference path="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.d.ts" />
+/// <reference path="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.d.ts" />
 ```
 
 ✅ **Benefits:**
@@ -196,11 +196,11 @@ Always get the newest version automatically:
 
 | Use Case | Recommended URL |
 |----------|----------------|
-| Production website | `content/jspt-v2.0.1/jspt.min.js` (versioned) |
+| Production website | `content/jspt-v2.0.3/jspt.min.js` (versioned) |
 | Testing/Development | `dynamic/jspt/jspt.js` (dynamic) |
-| Maximum performance | `content/jspt-v2.0.1/jspt.min.js` (minified + cached) |
-| ES6 Projects | `content/jspt-v2.0.1/jspt.module.js` (versioned module) |
-| TypeScript Projects | `content/jspt-v2.0.1/jspt.d.ts` (type definitions) |
+| Maximum performance | `content/jspt-v2.0.3/jspt.min.js` (minified + cached) |
+| ES6 Projects | `content/jspt-v2.0.3/jspt.module.js` (versioned module) |
+| TypeScript Projects | `content/jspt-v2.0.3/jspt.d.ts` (type definitions) |
 
 ## Usage
 
@@ -373,8 +373,8 @@ The TypeScript definitions are automatically picked up when you import the modul
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
     
     <!-- JSPT from CDN -->
-    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.css">
-    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css">
+    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.min.js"></script>
 </head>
 <body>
     <h1>JSPT Example</h1>
@@ -452,14 +452,14 @@ See `examples/example-script.html` for a full working example.
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.css">
+    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css">
 </head>
 <body>
     <button id="myButton">Show Toast</button>
     <button id="errorButton">Show Error</button>
 
     <script type="module">
-        import { makeToast } from 'https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.module.js';
+        import { makeToast } from 'https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.module.js';
 
         document.getElementById('myButton').addEventListener('click', () => {
             makeToast({
@@ -529,8 +529,8 @@ The library uses CSS custom properties for easy customization. You can override 
 - ✅ **Pin to specific version** - Avoid unexpected breaking changes
 - ✅ **Preload for faster loading:**
   ```html
-  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.min.js" as="script">
-  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.1/jspt.css" as="style">
+  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.min.js" as="script">
+  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.3/jspt.css" as="style">
   ```
 
 ### File Sizes
