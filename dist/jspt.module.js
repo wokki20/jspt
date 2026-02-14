@@ -7,6 +7,7 @@
  * @property {string} [message]
  * @property {string} [content]
  * @property {boolean} [close_on_blur=true]
+ * @property {string} [custom_id]
  */
 
 /**
@@ -137,11 +138,13 @@ export function makePopup(options) {
         title,
         message,
         content,
-        close_on_blur = true
+        close_on_blur = true,
+        custom_id = Math.random().toString(36).substring(2)
     } = options;
 
     const popup = document.createElement('div');
     popup.classList.add('popup');
+    popup.id = custom_id;
 
     if (content_type === 'text') {
         if (content) {

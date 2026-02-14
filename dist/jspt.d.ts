@@ -6,6 +6,7 @@ export interface PopupOptions {
     message?: string;
     content?: string;
     close_on_blur?: boolean;
+    custom_id?: string;
 }
 
 export interface ToastOptions {
