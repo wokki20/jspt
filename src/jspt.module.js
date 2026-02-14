@@ -1,3 +1,5 @@
+import { createIcons, icons } from "https://esm.sh/lucide@0.564.0";
+
 /**
  * @typedef {Object} PopupOptions
  * @property {'default'} [style='default']
@@ -21,10 +23,10 @@
  * @property {string} message
  * @property {string} [custom_id]
  * @property {string} [icon_left]
- * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'} [icon_left_type='google_material_rounded']
+ * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'|'lucide_icon'} [icon_left_type='google_material_rounded']
  * @property {Function} [icon_left_action]
  * @property {string} [icon_right]
- * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'} [icon_right_type='google_material_rounded']
+ * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'|'lucide_icon'} [icon_right_type='google_material_rounded']
  * @property {Function} [icon_right_action]
  * @property {number} [duration=5000]
  * @property {boolean} [close_on_click=false]
@@ -388,6 +390,9 @@ export function makeToast(options) {
             case 'emoji':
                 iconLeftElement.innerText = icon_left;
                 break;
+            case 'lucide_icon':
+                iconLeftElement.dataset.lucide = icon_left;
+                break;
         }
 
         toast.appendChild(iconLeftElement);
@@ -435,6 +440,9 @@ export function makeToast(options) {
                 break;
             case 'emoji':
                 iconRightElement.innerText = icon_right;
+                break;
+            case 'lucide_icon':
+                iconRightElement.dataset.lucide = icon_right;
                 break;
         }
 
@@ -603,6 +611,7 @@ export function makeToast(options) {
 
     const mo = new MutationObserver(updateToasts);
     mo.observe(container, { childList: true });
+    createIcons({icons});
 }
 
 export default {

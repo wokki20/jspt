@@ -73,6 +73,11 @@
     color: #fff;
 }
 
+.toast-container .toast .toast-icon.lucide {
+    width: 20px;
+    height: 20px;
+}
+
 .toast-container .toast .toast-icon.toast-icon-image {
     width: 20px;
     height: 20px;

@@ -21,28 +21,63 @@
  * @property {string} message
  * @property {string} [custom_id]
  * @property {string} [icon_left]
- * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'} [icon_left_type='google_material_rounded']
+ * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'|'lucide_icon'} [icon_left_type='google_material_rounded']
  * @property {Function} [icon_left_action]
  * @property {string} [icon_right]
- * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'} [icon_right_type='google_material_rounded']
+ * @property {'google_material_rounded'|'google_material_outlined'|'svg'|'image'|'text'|'emoji'|'lucide_icon'} [icon_right_type='google_material_rounded']
  * @property {Function} [icon_right_action]
  * @property {number} [duration=5000]
  * @property {boolean} [close_on_click=false]
  * @property {Function} [onclick]
  */
 
+/**
+ * @typedef {Object} ImportScript
+ * @property {Array<'highlightjs'|'material_symbols_rounded'|'material_symbols_outlined'|'lucide'>} names
+ */
+
 let debugMode = false;
 
-const script = document.createElement('script');
-script.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
-document.head.appendChild(script);
-
-const link = document.createElement('link');
-link.rel = 'stylesheet';
-link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
-document.head.appendChild(link);
-
 const jspt = {
+    /**
+     * @param {ImportScript} options
+     * @returns {void}
+     */
+    importScript: function(options) {
+        const { names } = options;
+        names.forEach(name => {
+            switch (name) {
+                case 'highlightjs':
+                    const hljs = document.createElement('script');
+                    hljs.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+                    document.head.appendChild(hljs);
+
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
+                    document.head.appendChild(link);
+                    break;
+                case 'material_symbols_rounded':
+                    const msr = document.createElement('link');
+                    msr.rel = 'stylesheet';
+                    msr.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200';
+                    document.head.appendChild(msr);
+                    break;
+                case 'material_symbols_outlined':
+                    const mso = document.createElement('link');
+                    mso.rel = 'stylesheet';
+                    mso.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200';
+                    document.head.appendChild(mso);
+                    break;
+                case 'lucide':
+                    const lucide = document.createElement('script');
+                    lucide.src = 'https://unpkg.com/lucide@latest';
+                    document.head.appendChild(lucide);
+                    break;
+            }
+        });
+    },
+    
     /**
      * @param {ClosePopupOptions} options
      * @returns {void}
@@ -366,6 +401,9 @@ const jspt = {
                 case 'emoji':
                     iconLeftElement.innerText = icon_left;
                     break;
+                case 'lucide_icon':
+                    iconLeftElement.dataset.lucide = icon_left;
+                    break;
             }
 
             toast.appendChild(iconLeftElement);
@@ -413,6 +451,9 @@ const jspt = {
                     break;
                 case 'emoji':
                     iconRightElement.innerText = icon_right;
+                    break;
+                case 'lucide_icon':
+                    iconRightElement.dataset.lucide = icon_right;
                     break;
             }
 
@@ -581,6 +622,7 @@ const jspt = {
 
         const mo = new MutationObserver(updateToasts);
         mo.observe(container, { childList: true });
+        if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 };
 

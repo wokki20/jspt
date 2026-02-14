@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2026-02-14
+
+### Added
+- Option for [lucide icons](https://lucide.dev/icons/) in toasts
+
+### Changed
+- How imports work in regulair scripts, you now need to call `importScript()` first to import the correct dependencies
+
+### Improved
+- Updated documentation to contain the new importScript() function
+
 ## [2.0.4] - 2026-02-14
 
 ### Changed

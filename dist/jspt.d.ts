@@ -14,10 +14,10 @@ export interface ToastOptions {
     message: string;
     custom_id?: string;
     icon_left?: string;
-    icon_left_type?: 'google_material_rounded' | 'google_material_outlined' | 'svg' | 'image' | 'text' | 'emoji';
+    icon_left_type?: 'google_material_rounded' | 'google_material_outlined' | 'svg' | 'image' | 'text' | 'emoji' | 'lucide_icon';
     icon_left_action?: () => void;
     icon_right?: string;
-    icon_right_type?: 'google_material_rounded' | 'google_material_outlined' | 'svg' | 'image' | 'text' | 'emoji';
+    icon_right_type?: 'google_material_rounded' | 'google_material_outlined' | 'svg' | 'image' | 'text' | 'emoji' | 'lucide_icon';
     icon_right_action?: () => void;
     duration?: number;
     close_on_click?: boolean;
@@ -28,16 +28,23 @@ export interface ClosePopupOptions {
     custom_id: string;
 }
 
+export interface ImportScripts {
+    names: Array <'highlightjs' | 'material_symbols_rounded' | 'material_symbols_outlined' | 'lucide'>;
+};
+
 export function makePopup(options: PopupOptions): void;
 
 export function makeToast(options: ToastOptions): void;
 
 export function closePopup(options: ClosePopupOptions): void;
 
+export function importScripts(options: ImportScripts): void;
+
 declare const jspt: {
     makePopup: typeof makePopup;
     makeToast: typeof makeToast;
     closePopup: typeof closePopup;
+    importScripts: typeof importScripts;
 };
 
 export default jspt;

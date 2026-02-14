@@ -15,12 +15,17 @@ Get started in seconds with our CDN:
 <html>
 <head>
     <!-- JSPT CSS -->
-    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css">
+    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css">
     <!-- JSPT JavaScript -->
-    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.min.js"></script>
+    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.min.js"></script>
 </head>
 <body>
     <script>
+        // Import icon libraries (required for classic scripts)
+        jspt.importScript({
+            names: ['material_symbols_rounded']
+        });
+
         // Show a toast notification
         jspt.makeToast({
             message: "Hello World!",
@@ -74,15 +79,22 @@ See [FOLDER_STRUCTURE.md](FOLDER_STRUCTURE.md) for detailed information.
 #### Production (Pinned Version - Stable)
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css">
+<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css">
 
 <!-- JavaScript (minified) -->
-<script src="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.min.js"></script>
+<script src="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.min.js"></script>
 
 <!-- Usage -->
 <script>
+// Import icon libraries (required for classic scripts when using icons)
+jspt.importScript({
+    names: ['material_symbols_rounded']
+});
+
 jspt.makeToast({
-    message: "Hello from CDN!"
+    message: "Hello from CDN!",
+    icon_left: "check_circle",
+    icon_left_type: "google_material_rounded"
 });
 </script>
 ```
@@ -96,25 +108,37 @@ jspt.makeToast({
 
 #### ES Module from CDN
 ```html
-<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css">
+<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css">
 
 <script type="module">
-import { makeToast, makePopup } from 'https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.module.js';
+import { makeToast, makePopup } from 'https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.module.js';
 
 makeToast({ message: "ES Module from CDN!" });
 </script>
 ```
 
+**Note:** When using ES modules, you must manually include icon libraries in your HTML if needed:
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+```
+
 ### Option 2: Download and Self-Host
 
-#### Script Tag (Traditional)
+#### Script Tag (Classic Script)
 ```html
 <link rel="stylesheet" href="dist/jspt.css">
 <script src="dist/jspt.js"></script>
 
 <script>
+// Import icon libraries first (required for classic scripts when using icons)
+jspt.importScript({
+    names: ['material_symbols_rounded']
+});
+
 jspt.makeToast({
-    message: "Hello World!"
+    message: "Hello World!",
+    icon_left: "check_circle",
+    icon_left_type: "google_material_rounded"
 });
 </script>
 ```
@@ -134,10 +158,45 @@ makeToast({
 });
 ```
 
+**Note:** For ES modules, manually include icon libraries in your HTML:
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+```
+
 ### Option 3: NPM Package
 
 ```bash
 npm install @wokki20/jspt
+```
+
+## Icon Libraries
+
+### Classic Scripts (Regular `<script>` tag)
+
+When using JSPT with classic scripts, you **must** call `jspt.importScript()` to load icon libraries:
+
+```javascript
+jspt.importScript({
+    names: ['material_symbols_rounded', 'material_symbols_outlined', 'lucide']
+});
+```
+
+**Available icon libraries:**
+- `'material_symbols_rounded'` - Google Material Symbols (Rounded)
+- `'material_symbols_outlined'` - Google Material Symbols (Outlined)
+- `'lucide'` - Lucide Icons
+- `'highlightjs'` - Highlight.js (for code syntax highlighting)
+
+### ES Modules
+
+When using ES modules, `jspt.importScript()` is not available. You must manually include icon libraries in your HTML:
+
+```html
+<!-- Material Symbols -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
 ```
 
 ## CDN Usage
@@ -149,20 +208,20 @@ JSPT is hosted on `https://cdn.wokki20.nl` with two delivery methods:
 Use specific versions for stability and caching:
 
 ```html
-<!-- v2.0.4 - Minified (10KB) -->
-<script src="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.min.js"></script>
+<!-- v2.0.5 - Minified (10KB) -->
+<script src="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.min.js"></script>
 
-<!-- v2.0.4 - Full with JSDoc (24KB) -->
-<script src="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.js"></script>
+<!-- v2.0.5 - Full with JSDoc (24KB) -->
+<script src="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.js"></script>
 
-<!-- v2.0.4 - ES Module (21KB) -->
-<script type="module" src="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.module.js"></script>
+<!-- v2.0.5 - ES Module (21KB) -->
+<script type="module" src="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.module.js"></script>
 
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css">
+<link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css">
 
 <!-- TypeScript Definitions -->
-/// <reference path="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.d.ts" />
+/// <reference path="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.d.ts" />
 ```
 
 ✅ **Benefits:**
@@ -202,11 +261,11 @@ Always get the newest version automatically:
 
 | Use Case | Recommended URL |
 |----------|----------------|
-| Production website | `content/jspt-v2.0.4/jspt.min.js` (versioned) |
+| Production website | `content/jspt-v2.0.5/jspt.min.js` (versioned) |
 | Testing/Development | `dynamic/jspt/jspt.js` (dynamic) |
-| Maximum performance | `content/jspt-v2.0.4/jspt.min.js` (minified + cached) |
-| ES6 Projects | `content/jspt-v2.0.4/jspt.module.js` (versioned module) |
-| TypeScript Projects | `content/jspt-v2.0.4/jspt.d.ts` (type definitions) |
+| Maximum performance | `content/jspt-v2.0.5/jspt.min.js` (minified + cached) |
+| ES6 Projects | `content/jspt-v2.0.5/jspt.module.js` (versioned module) |
+| TypeScript Projects | `content/jspt-v2.0.5/jspt.d.ts` (type definitions) |
 
 ## Usage
 
@@ -223,6 +282,11 @@ jspt.makeToast({
 #### Toast with Icon
 
 ```javascript
+// For classic scripts, import icons first
+jspt.importScript({
+    names: ['material_symbols_rounded']
+});
+
 jspt.makeToast({
     message: "Success!",
     style: "default",
@@ -285,6 +349,29 @@ jspt.makePopup({
 
 ## API Reference
 
+### `jspt.importScript(options)`
+
+**(Classic scripts only)** Loads external libraries like icon fonts or syntax highlighters.
+
+**Options:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `names` | string[] | Array of library names to import |
+
+**Available libraries:**
+- `'highlightjs'` - Highlight.js for code syntax highlighting
+- `'material_symbols_rounded'` - Google Material Symbols (Rounded)
+- `'material_symbols_outlined'` - Google Material Symbols (Outlined)
+- `'lucide'` - Lucide Icons
+
+**Example:**
+```javascript
+jspt.importScript({
+    names: ['material_symbols_rounded', 'lucide', 'highlightjs']
+});
+```
+
 ### `jspt.makeToast(options)`
 
 Creates a toast notification.
@@ -313,6 +400,7 @@ Creates a toast notification.
 - `'image'` - Image URL
 - `'text'` - Plain text
 - `'emoji'` - Emoji characters
+- `'lucide_icon'` - Lucide Icons
 
 ### `jspt.makePopup(options)`
 
@@ -375,12 +463,9 @@ The TypeScript definitions are automatically picked up when you import the modul
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSPT CDN Example</title>
     
-    <!-- Optional: Material Icons for icon support -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
-    
     <!-- JSPT from CDN -->
-    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css">
-    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css">
+    <script src="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.min.js"></script>
 </head>
 <body>
     <h1>JSPT Example</h1>
@@ -388,6 +473,10 @@ The TypeScript definitions are automatically picked up when you import the modul
     <button onclick="showPopup()">Show Popup</button>
 
     <script>
+        jspt.importScript({
+            names: ['material_symbols_rounded']
+        });
+
         function showToast() {
             jspt.makeToast({
                 message: "Hello from CDN!",
@@ -420,7 +509,6 @@ See `examples/example-script.html` for a full working example.
 <html>
 <head>
     <link rel="stylesheet" href="dist/jspt.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
 </head>
 <body>
     <button onclick="showToast()">Show Toast</button>
@@ -428,6 +516,10 @@ See `examples/example-script.html` for a full working example.
 
     <script src="dist/jspt.js"></script>
     <script>
+        jspt.importScript({
+            names: ['material_symbols_rounded']
+        });
+
         function showToast() {
             jspt.makeToast({
                 message: "Hello World!",
@@ -458,19 +550,22 @@ See `examples/example-script.html` for a full working example.
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css">
+    <link rel="stylesheet" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css">
+    <!-- Manually include icon libraries for ES modules -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded">
 </head>
 <body>
     <button id="myButton">Show Toast</button>
     <button id="errorButton">Show Error</button>
 
     <script type="module">
-        import { makeToast } from 'https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.module.js';
+        import { makeToast } from 'https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.module.js';
 
         document.getElementById('myButton').addEventListener('click', () => {
             makeToast({
                 message: "Button clicked!",
                 icon_left: "check",
+                icon_left_type: "google_material_rounded",
                 duration: 2000
             });
         });
@@ -480,6 +575,7 @@ See `examples/example-script.html` for a full working example.
                 style: "default-error",
                 message: "Something went wrong",
                 icon_left: "error",
+                icon_left_type: "google_material_rounded",
                 duration: -1,
                 close_on_click: true
             });
@@ -535,8 +631,8 @@ The library uses CSS custom properties for easy customization. You can override 
 - ✅ **Pin to specific version** - Avoid unexpected breaking changes
 - ✅ **Preload for faster loading:**
   ```html
-  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.min.js" as="script">
-  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.4/jspt.css" as="style">
+  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.min.js" as="script">
+  <link rel="preload" href="https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css" as="style">
   ```
 
 ### File Sizes
@@ -585,9 +681,9 @@ MIT - See [LICENSE](LICENSE) file for details.
 
 ### Quick Links
 - [Installation Guide](#installation)
+- [Icon Libraries](#icon-libraries)
 - [CDN Usage](#cdn-usage)
 - [API Reference](#api-reference)
 - [Examples](#examples)
 - [Contributing Guide](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
-
