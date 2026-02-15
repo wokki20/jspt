@@ -1,13 +1,12 @@
 name: Theme Submission Validation
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - gh-pages
     paths:
       - 'themes_list.json'
     types: [opened, synchronize, edited]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,7 +23,6 @@ jobs:
       - name: Checkout PR
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
           
       - name: Checkout base branch
@@ -73,6 +71,26 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number,
               body: comment
+            });
+            
+      - name: Set status check
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const state = fs.existsSync('/tmp/validation-success.txt') ? 'success' : 'failure';
+            const description = state === 'success' 
+              ? 'All validation checks passed!' 
+              : 'Validation checks failed. See comments for details.';
+            
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: state,
+              context: 'Theme Validation',
+              description: description
             });
 
   validate-pr-template:
