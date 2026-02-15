@@ -12,7 +12,7 @@ JSPT is a modern, lightweight JavaScript library for creating **beautiful toast 
 - 🔧 Full TypeScript/JSDoc support for VS Code
 - 📦 Multiple import options (script tag, ES module, minified)
 - 🎯 Smart error handling
-- ⚡ Zero dependencies (except highlight.js)
+- ⚡ No extra required dependencies (unless you want icons like Lucide or Google Material)
 - 🎭 Customizable icons and styles
 - 📱 Responsive and mobile-friendly
 

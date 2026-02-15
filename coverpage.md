@@ -2,7 +2,7 @@
 
 > The go-to library for creating toasts & popups
 
-- No dependencies
+- No extra required dependencies
 - Full TypeScript support
 - VS Code intellisense support
 
