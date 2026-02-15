@@ -15,44 +15,82 @@ permissions:
 jobs:
   post-results:
     runs-on: ubuntu-latest
-    if: >
-      github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion != 'skipped'
     
     steps:
-      - name: Download validation artifacts
-        uses: actions/download-artifact@v4
+      - name: Download artifacts
+        uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
-          path: artifacts
+          script: |
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
+            
+            const fs = require('fs');
+            const path = require('path');
+            
+            for (const artifact of artifacts.data.artifacts) {
+              console.log(`Downloading artifact: ${artifact.name}`);
+              
+              const download = await github.rest.actions.downloadArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+                archive_format: 'zip',
+              });
+              
+              fs.mkdirSync('artifacts', { recursive: true });
+              fs.writeFileSync(`artifacts/${artifact.name}.zip`, Buffer.from(download.data));
+            }
+            
+      - name: Extract artifacts
+        run: |
+          cd artifacts
+          for file in *.zip; do
+            if [ -f "$file" ]; then
+              dirname="${file%.zip}"
+              mkdir -p "$dirname"
+              unzip -q "$file" -d "$dirname"
+              echo "Extracted $file to $dirname"
+            fi
+          done
+          ls -la
+          find . -type f
           
-      - name: Process validation results
+      - name: Post validation results
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
             const path = require('path');
             
-            let prNumber, prSha, repo;
+            let prNumber, prSha;
             
-            if (fs.existsSync('artifacts/validation-results/pr-number.txt')) {
-              prNumber = fs.readFileSync('artifacts/validation-results/pr-number.txt', 'utf8').trim();
-              prSha = fs.readFileSync('artifacts/validation-results/pr-sha.txt', 'utf8').trim();
-              repo = fs.readFileSync('artifacts/validation-results/repo.txt', 'utf8').trim();
-            } else if (fs.existsSync('artifacts/template-results/pr-number.txt')) {
-              prNumber = fs.readFileSync('artifacts/template-results/pr-number.txt', 'utf8').trim();
-              prSha = fs.readFileSync('artifacts/template-results/pr-sha.txt', 'utf8').trim();
-              repo = fs.readFileSync('artifacts/template-results/repo.txt', 'utf8').trim();
-            } else {
-              console.log('No PR metadata found, skipping...');
+            try {
+              if (fs.existsSync('artifacts/validation-results/pr-number.txt')) {
+                prNumber = fs.readFileSync('artifacts/validation-results/pr-number.txt', 'utf8').trim();
+                prSha = fs.readFileSync('artifacts/validation-results/pr-sha.txt', 'utf8').trim();
+                console.log(`Found validation results for PR #${prNumber}`);
+              } else if (fs.existsSync('artifacts/template-results/pr-number.txt')) {
+                prNumber = fs.readFileSync('artifacts/template-results/pr-number.txt', 'utf8').trim();
+                prSha = fs.readFileSync('artifacts/template-results/pr-sha.txt', 'utf8').trim();
+                console.log(`Found template results for PR #${prNumber}`);
+              } else {
+                console.log('No PR metadata found');
+                console.log('Available files:', fs.readdirSync('artifacts', { recursive: true }));
+                return;
+              }
+            } catch (error) {
+              console.error('Error reading PR metadata:', error);
               return;
             }
             
-            console.log(`Processing PR #${prNumber}`);
+            console.log(`Processing results for PR #${prNumber}, SHA: ${prSha}`);
             
-            if (fs.existsSync('artifacts/validation-results')) {
+            if (fs.existsSync('artifacts/validation-results/outcome.txt')) {
               const outcome = fs.readFileSync('artifacts/validation-results/outcome.txt', 'utf8').trim();
+              console.log(`Theme validation outcome: ${outcome}`);
               
               if (outcome === 'failure') {
                 let comment = '## ❌ Theme Submission Validation Failed\n\n';
@@ -66,60 +104,91 @@ jobs:
                 
                 comment += '\n\n---\n*Please fix these issues and update your PR.*';
                 
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: parseInt(prNumber),
-                  body: comment
-                });
+                try {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: parseInt(prNumber),
+                    body: comment
+                  });
+                  console.log('Posted failure comment');
+                } catch (error) {
+                  console.error('Error posting comment:', error);
+                }
                 
-                await github.rest.repos.createCommitStatus({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  sha: prSha,
-                  state: 'failure',
-                  context: 'Theme Validation',
-                  description: 'Validation checks failed. See comments for details.'
-                });
+                try {
+                  await github.rest.repos.createCommitStatus({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    sha: prSha,
+                    state: 'failure',
+                    context: 'Theme Validation',
+                    description: 'Validation checks failed. See comments for details.'
+                  });
+                  console.log('Set failure status');
+                } catch (error) {
+                  console.error('Error setting status:', error);
+                }
               } else if (outcome === 'success') {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: parseInt(prNumber),
-                  body: '## ✅ Theme Submission Validation Passed\n\nAll validation checks passed successfully!'
-                });
+                try {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: parseInt(prNumber),
+                    body: '## ✅ Theme Submission Validation Passed\n\nAll validation checks passed successfully!'
+                  });
+                  console.log('Posted success comment');
+                } catch (error) {
+                  console.error('Error posting comment:', error);
+                }
                 
-                await github.rest.repos.createCommitStatus({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  sha: prSha,
-                  state: 'success',
-                  context: 'Theme Validation',
-                  description: 'All validation checks passed!'
-                });
+                try {
+                  await github.rest.repos.createCommitStatus({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    sha: prSha,
+                    state: 'success',
+                    context: 'Theme Validation',
+                    description: 'All validation checks passed!'
+                  });
+                  console.log('Set success status');
+                } catch (error) {
+                  console.error('Error setting status:', error);
+                }
               }
             }
             
-            if (fs.existsSync('artifacts/template-results')) {
+            if (fs.existsSync('artifacts/template-results/outcome.txt')) {
               const outcome = fs.readFileSync('artifacts/template-results/outcome.txt', 'utf8').trim();
+              console.log(`Template validation outcome: ${outcome}`);
               
               if (outcome === 'failure' && fs.existsSync('artifacts/template-results/template-errors.txt')) {
                 const comment = fs.readFileSync('artifacts/template-results/template-errors.txt', 'utf8');
                 
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: parseInt(prNumber),
-                  body: comment
-                });
+                try {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: parseInt(prNumber),
+                    body: comment
+                  });
+                  console.log('Posted template failure comment');
+                } catch (error) {
+                  console.error('Error posting template comment:', error);
+                }
               } else if (outcome === 'success' && fs.existsSync('artifacts/template-results/template-success.txt')) {
                 const comment = fs.readFileSync('artifacts/template-results/template-success.txt', 'utf8');
                 
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: parseInt(prNumber),
-                  body: comment
-                });
+                try {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: parseInt(prNumber),
+                    body: comment
+                  });
+                  console.log('Posted template success comment');
+                } catch (error) {
+                  console.error('Error posting template comment:', error);
+                }
               }
             }
