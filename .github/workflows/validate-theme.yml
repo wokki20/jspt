@@ -8,6 +8,12 @@ on:
       - 'themes_list.json'
     types: [opened, synchronize, edited]
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  statuses: write
+
 jobs:
   validate-submission:
     runs-on: ubuntu-latest
