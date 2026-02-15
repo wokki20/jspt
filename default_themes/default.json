@@ -7,9 +7,9 @@
     "homepage": "https://jspt.js.org",
     "version": "2.0.5",
     "license": "MIT",
-    "styles": [
-        "./jspt.css"
-    ],
+    "theme_url": "https://cdn.wokki20.nl/content/jspt-v2.0.5/jspt.css",
+    "released_on": "2026-02-14",
+    "updated_on": "2026-02-14",
     "categories": [
         "default",
         "dark",
