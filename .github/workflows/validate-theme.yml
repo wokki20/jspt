@@ -1,7 +1,7 @@
 name: Theme Submission Validation
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - gh-pages
     paths:
@@ -23,6 +23,7 @@ jobs:
       - name: Checkout PR
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
           
       - name: Checkout base branch
