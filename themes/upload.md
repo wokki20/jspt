@@ -92,16 +92,24 @@ Add your entry as a new key-value pair within the existing JSON object, followin
 
 ### 5. Create a Pull Request
 
-**Important:** Make sure to set the correct base branch!
+**Important:** Make sure to set the correct base branch and use the theme submission template!
 
+**Quick Link (recommended):**
+Replace `YOUR-USERNAME` with your GitHub username and click this link:
+```
+https://github.com/levkris/jspt/compare/gh-pages...YOUR-USERNAME:gh-pages?template=theme_submission.md
+```
+
+**Or manually:**
 1. Go to your fork on GitHub
 2. Click **"Contribute"** → **"Open pull request"**
 3. **Change the base branch:**
    - By default, it may target `main`
    - Click on **"base: main"** to change it
    - Select **`gh-pages`** as the base branch
-4. Fill out the PR template completely
-5. Click **"Create pull request"**
+4. **Select template:** Choose "Theme Submission" from the template dropdown if available, else add `?template=theme_submission.md` to the URL
+5. Fill out the PR template completely
+6. Click **"Create pull request"**
 
 Your PR should show: `levkris:gh-pages ← your-username:gh-pages`
 

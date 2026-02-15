@@ -1,10 +1,3 @@
----
-name: General Changes
-about: This is a template for normal pull requests.
-title: '[PR] '
-labels: pull-request
-assignees: ''
----
 ## Description
 Please include a summary of the changes and which issue is fixed (if applicable).
 

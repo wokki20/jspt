@@ -1,11 +1,3 @@
----
-name: Theme Submission
-about: Submit a new theme to the JSPT themes collection
-title: '[THEME] '
-labels: theme-submission
-assignees: ''
----
-
 ## Theme Information
 
 **Theme Name:** <!-- Unique identifier (lowercase, no spaces) -->
