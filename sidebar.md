@@ -12,6 +12,7 @@
   - [CDN Example](docs/examples.md?id=cdn-example)
   - [Self-Hosted Example](docs/examples.md?id=self-hosted-example)
   - [ES Module Example](docs/examples.md?id=es-module-example)
+  - [Complete Example](docs/examples.md?id=complete-example)
 - [Styling](docs/styling.md)
 - [Performance Tips](docs/performance.md)
 - [Changelog](https://github.com/levkris/jspt/blob/main/CHANGELOG.md)

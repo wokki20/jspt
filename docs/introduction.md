@@ -31,4 +31,4 @@ jspt/
 └── package.json           # NPM configuration
 ```
 
-See [installation](installation.md) to get started quickly.
+See [installation](docs/installation.md) to get started quickly.
