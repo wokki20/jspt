@@ -18,45 +18,16 @@ jobs:
     
     steps:
       - name: Download artifacts
-        uses: actions/github-script@v7
+        uses: dawidd6/action-download-artifact@v6
         with:
-          script: |
-            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.payload.workflow_run.id,
-            });
-            
-            const fs = require('fs');
-            const path = require('path');
-            
-            for (const artifact of artifacts.data.artifacts) {
-              console.log(`Downloading artifact: ${artifact.name}`);
-              
-              const download = await github.rest.actions.downloadArtifact({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                artifact_id: artifact.id,
-                archive_format: 'zip',
-              });
-              
-              fs.mkdirSync('artifacts', { recursive: true });
-              fs.writeFileSync(`artifacts/${artifact.name}.zip`, Buffer.from(download.data));
-            }
-            
-      - name: Extract artifacts
+          workflow: validate-theme.yml
+          run_id: ${{ github.event.workflow_run.id }}
+          path: artifacts
+          
+      - name: List downloaded artifacts
         run: |
-          cd artifacts
-          for file in *.zip; do
-            if [ -f "$file" ]; then
-              dirname="${file%.zip}"
-              mkdir -p "$dirname"
-              unzip -q "$file" -d "$dirname"
-              echo "Extracted $file to $dirname"
-            fi
-          done
-          ls -la
-          find . -type f
+          echo "Downloaded artifacts:"
+          find artifacts -type f -ls
           
       - name: Post validation results
         uses: actions/github-script@v7
@@ -64,6 +35,8 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
+            
+            console.log('Checking for artifact directories...');
             
             let prNumber, prSha;
             
@@ -78,7 +51,24 @@ jobs:
                 console.log(`Found template results for PR #${prNumber}`);
               } else {
                 console.log('No PR metadata found');
-                console.log('Available files:', fs.readdirSync('artifacts', { recursive: true }));
+                console.log('Artifacts directory contents:');
+                if (fs.existsSync('artifacts')) {
+                  const walk = (dir) => {
+                    const files = fs.readdirSync(dir, { withFileTypes: true });
+                    files.forEach(file => {
+                      const filePath = path.join(dir, file.name);
+                      if (file.isDirectory()) {
+                        console.log(`DIR: ${filePath}`);
+                        walk(filePath);
+                      } else {
+                        console.log(`FILE: ${filePath}`);
+                      }
+                    });
+                  };
+                  walk('artifacts');
+                } else {
+                  console.log('Artifacts directory does not exist');
+                }
                 return;
               }
             } catch (error) {
