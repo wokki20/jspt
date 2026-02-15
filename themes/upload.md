@@ -58,7 +58,12 @@ In your theme folder, create a `theme_config.json` file with the following struc
 
 ### 3. Fork the repository
 
-Create a fork of the [gh-pages branch](https://github.com/levkris/jspt/tree/gh-pages)
+Create a fork of the repository:
+
+1. Go to [https://github.com/levkris/jspt](https://github.com/levkris/jspt)
+2. Click **"Fork"** in the top right
+3. After forking, **switch to the `gh-pages` branch** in your fork
+4. Make your changes in the `gh-pages` branch
 
 ### 4. Edit themes_list.json
 
@@ -87,7 +92,21 @@ Add your entry as a new key-value pair within the existing JSON object, followin
 
 ### 5. Create a Pull Request
 
-Submit a pull request with your changes. Make sure to fill in all the information requested in the PR template.
+**Important:** Make sure to set the correct base branch!
+
+1. Go to your fork on GitHub
+2. Click **"Contribute"** → **"Open pull request"**
+3. **Change the base branch:**
+   - By default, it may target `main`
+   - Click on **"base: main"** to change it
+   - Select **`gh-pages`** as the base branch
+4. Fill out the PR template completely
+5. Click **"Create pull request"**
+
+Your PR should show: `levkris:gh-pages ← your-username:gh-pages`
+
+**⚠️ Common Mistake:**
+If you see `levkris:main ← your-username:gh-pages`, you need to change the base branch to `gh-pages`. The workflow won't run if the PR targets `main`.
 
 ### 6. Wait for review
 

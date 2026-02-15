@@ -270,14 +270,18 @@ document.head.appendChild(link);
 
 1. **Fork the repository**
    - Go to [github.com/levkris/jspt](https://github.com/levkris/jspt)
-   - Click "Fork" and select the `gh-pages` branch
+   - Click "Fork" 
+   - After forking, switch to the `gh-pages` branch in your fork
 
 2. **Add your theme to `themes_list.json`**
-   - Edit the file in your fork
+   - Edit the file in your fork (make sure you're in the `gh-pages` branch)
    - Add your entry to the JSON object
    - Make sure JSON is valid!
 
 3. **Create a Pull Request**
+   - Click "Contribute" → "Open pull request"
+   - **⚠️ Important:** Change the base branch to `gh-pages` (it may default to `main`)
+   - Your PR should show: `levkris:gh-pages ← your-username:gh-pages`
    - Fill out the PR template completely
    - Add screenshots of your theme
    - Include any relevant notes
