@@ -1,0 +1,170 @@
+name: Theme Submission Validation
+
+on:
+  pull_request:
+    paths:
+      - 'themes_list.json'
+    types: [opened, synchronize, edited]
+
+jobs:
+  validate-submission:
+    runs-on: ubuntu-latest
+    name: Validate Theme Submission
+    
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Checkout base branch
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        run: npm install -g ajv-cli node-fetch
+        
+      - name: Run validation script
+        id: validate
+        run: |
+          node .github/scripts/validate-theme.js
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+          REPO: ${{ github.repository }}
+          
+      - name: Comment validation results
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let comment = '## ❌ Theme Submission Validation Failed\n\n';
+            
+            if (fs.existsSync('/tmp/validation-errors.txt')) {
+              const errors = fs.readFileSync('/tmp/validation-errors.txt', 'utf8');
+              comment += errors;
+            } else {
+              comment += 'Unknown validation error occurred.';
+            }
+            
+            comment += '\n\n---\n*Please fix these issues and update your PR.*';
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+            
+      - name: Set status check
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const state = fs.existsSync('/tmp/validation-success.txt') ? 'success' : 'failure';
+            const description = state === 'success' 
+              ? 'All validation checks passed!' 
+              : 'Validation checks failed. See comments for details.';
+            
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.payload.pull_request.head.sha,
+              state: state,
+              context: 'Theme Validation',
+              description: description
+            });
+
+  validate-pr-template:
+    runs-on: ubuntu-latest
+    name: Validate PR Template
+    
+    steps:
+      - name: Check PR body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body || '';
+            const errors = [];
+            
+            const requiredFields = [
+              { name: 'Theme Name', pattern: /\*\*Theme Name:\*\*\s*(.+)/ },
+              { name: 'Display Name', pattern: /\*\*Display Name:\*\*\s*(.+)/ },
+              { name: 'Author', pattern: /\*\*Author:\*\*\s*(.+)/ },
+              { name: 'Version', pattern: /\*\*Version:\*\*\s*(.+)/ },
+              { name: 'GitHub Repository', pattern: /\*\*GitHub Repository:\*\*\s*(https:\/\/github\.com\/.+)/ },
+              { name: 'Homepage URL', pattern: /\*\*Homepage URL:\*\*\s*(https?:\/\/.+)/ },
+              { name: 'Theme URL', pattern: /\*\*Theme URL \(direct CSS link\):\*\*\s*(https?:\/\/.+\.css)/ },
+              { name: 'Theme Config URL', pattern: /\*\*Theme Config URL:\*\*\s*(https?:\/\/.+\.json)/ }
+            ];
+            
+            for (const field of requiredFields) {
+              const match = prBody.match(field.pattern);
+              if (!match || match[1].trim().includes('<!--') || match[1].trim() === '') {
+                errors.push(`- ❌ ${field.name} is missing or not filled out`);
+              }
+            }
+            
+            const checklist = [
+              'I have read and followed the',
+              'My theme is publicly hosted',
+              'The `theme_config.json` file is properly formatted',
+              'My theme is hosted on a public GitHub repository',
+              'I have tested the theme',
+              'The theme URL points directly to the CSS file',
+              'My theme follows accessibility best practices',
+              'I have added my theme to `themes_list.json` correctly',
+              'The `themes_list.json` file is valid JSON'
+            ];
+            
+            let uncheckedItems = 0;
+            for (const item of checklist) {
+              const regex = new RegExp(`- \\[ \\].*${item.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`);
+              if (regex.test(prBody)) {
+                uncheckedItems++;
+              }
+            }
+            
+            if (uncheckedItems > 0) {
+              errors.push(`- ❌ ${uncheckedItems} checklist item(s) not checked`);
+            }
+            
+            if (!prBody.match(/- \[x\]/i)) {
+              errors.push('- ❌ No checklist items are checked');
+            }
+            
+            const categoryRegex = /- \[x\]/gi;
+            const categoryMatches = prBody.match(categoryRegex);
+            if (!categoryMatches || categoryMatches.length < 2) {
+              errors.push('- ⚠️ No categories selected (at least one recommended)');
+            }
+            
+            if (errors.length > 0) {
+              const comment = `## ❌ PR Template Validation Failed\n\n${errors.join('\n')}\n\n---\n*Please complete all required fields and check all boxes in the PR template.*`;
+              
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+              
+              core.setFailed('PR template validation failed');
+            } else {
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '✅ PR template validation passed!'
+              });
+            }
