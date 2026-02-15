@@ -6,6 +6,8 @@
 
 A modern, lightweight JavaScript library for creating beautiful toast notifications and popups with comprehensive error handling and VS Code intellisense support.
 
+📚 **[View Full Documentation](https://jspt.js.org)**
+
 ## 🚀 Quick Start
 
 Get started in seconds with our CDN:
@@ -68,7 +70,7 @@ See [FOLDER_STRUCTURE.md](FOLDER_STRUCTURE.md) for detailed information.
 - 🔧 Full TypeScript/JSDoc support for VS Code intellisense
 - 📦 Multiple import options (script tag, ES module, minified)
 - 🎯 Smart error handling with code highlighting
-- ⚡ Zero dependencies (except highlight.js for error displays)
+- ⚡ No extra required dependencies (unless you want icons like Lucide or Google Material)
 - 🎭 Customizable icons and styles
 - 📱 Responsive and mobile-friendly
 
@@ -675,11 +677,13 @@ MIT - See [LICENSE](LICENSE) file for details.
 ## Support
 
 - 🌐 **CDN:** https://cdn.wokki20.nl
+- 📚 **Documentation:** https://jspt.js.org
 - 📫 **Issues:** [github.com/levkris/jspt/issues](https://github.com/levkris/jspt/issues)
 - ⭐ **Star this repo** if you find it useful!
 - 🔗 **Share it** with others
 
 ### Quick Links
+- [Full Documentation](https://jspt.js.org)
 - [Installation Guide](#installation)
 - [Icon Libraries](#icon-libraries)
 - [CDN Usage](#cdn-usage)
