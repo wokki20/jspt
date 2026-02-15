@@ -2,6 +2,8 @@ name: Theme Submission Validation
 
 on:
   pull_request:
+    branches:
+      - gh-pages
     paths:
       - 'themes_list.json'
     types: [opened, synchronize, edited]
